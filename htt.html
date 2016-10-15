@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="js/jquery.js"></script>
+<script src="js/seedrandom.js"></script>
+<style>
+body {
+	padding-left: 11em;
+	font-family: Georgia, "Times New Roman", Times, serif;
+ 	color: purple;
+	background-color: #d8da3d
+}
+#randomTable {
+    font-family: monospace;
+    font-size: 1.0em;
+    
+}
+#Code {
+	  font-family: monospace;
+      font-size: 1.0em;
+  	  position: absolute;
+	  top: 25em;
+	  left: 1em;
+	  width: 11em;
+}
+ul.navbar {
+	list-style-type:none;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	top: 5em;
+	left: 1em;
+	width: 11em;
+ }
+ 
+ ul.navbar li {
+	width:58em;
+	background: white;
+	margin: 0.5em 0;
+	padding: 0.3em;
+	border-left: 1em solid black
+}
+ 
+ 
+</style>
+</head>
+<body>
+
+請輸入亂數表的編號：<input type="text" id="txtSeed" value="1234" />
+&nbsp;<input type="button" id="btnGo" value="產生亂數表" />
+<br>
+請輸入卡片號碼：<input type="text" id="txtCode" value="1331621832627343" />
+&nbsp;<input type="button" id="btnGenerate" value="卡片號碼"
+onClick="generCode()"/>
+<div id="randomTable">
+	
+</div>
+<div id="Code">
+	
+</div>
+
+<script>
+var randomCode = new Array();
+$("#btnGo").click(function () {
+    var result = "";
+	// 純數字:
+	var sPool = "0123456789";
+    // 數字+小寫字母: (去除 l, o)
+    // var sPool = "abcdefghijkmnpqrstuvwxyz0123456789";
+    // 數字+大小寫字母: (去除 I, O, l, o)
+    // var sPool = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz0123456789";
+    Math.seedrandom($("#txtSeed").val()); // 設定亂數種子
+	var iRandom = 0; var ch = "?";
+	
+	result ="<br><br><ul class='navbar'>"
+	for (iRow = 1; iRow <= 10; iRow++) {
+		var sLine="";// = (iRow + 100).toString().substr(1, 2) + ": ";
+		for (iCol = 1; iCol <= sPool.length; iCol++) {
+			iRandom = Math.floor(Math.random() * sPool.length);
+			ch = sPool.substr(iRandom, 1);
+			sLine += ch;
+			
+		}
+		randomCode[iRow] = sLine;
+		result +="<li>"+ sLine ;
+	}
+		result +="</ul>"
+	$("#randomTable").html(result);
+});
+function generCode()
+{
+	var code=txtCode.value.trim();
+	var result = "";
+	var r=""
+	var t=""
+	for (var i = 0; i<code.length ;i+=2)
+	{
+		t+=code.charAt(i+1)+",";
+ 		r = randomCode[code.charAt(i)];
+ 		result += r.charAt(code.charAt(i+1)-1);
+		
+		
+	}
+	alert(result);
+};
+</script>
+
+</body>
+</html>

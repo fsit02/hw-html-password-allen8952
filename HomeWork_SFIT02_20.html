@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<script src="js/jquery.js"></script>
+		<script src="js/seedrandom.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<style>
+		#txt{font-size:1.5em;
+			margin:10px;
+			padding:0px;
+			color:#05c;
+		}
+		#item{
+			font-family:monospace;
+			font-size:1em;
+			background:#ffa;
+		}
+		#randomTable {
+    	font-family: monospace;
+    	font-size: 2.0em;
+    	padding:0em 2em;
+    	color:#f99;
+    	float:left;
+    	}
+    	#context{
+    		font-family: monospace;
+    		font-size: 2.0em;
+    		float:right;
+    		margin:0em;
+    		padding:0em; 
+    		color:#ffa;
+    	}
+    	body{
+    		background:#000;
+    	}
+</style>
+	</head>
+	<body>
+		<div class="btn-group btn-group-justified">
+			<div class="btn-group">
+			<button type="button" class="btn btn-info" id="number">純數字</button>
+			</div>
+			<div class="btn-group">
+			<button type="button" class="btn btn-info" id="lowcerase">數字+小寫字母(去除l,o)</button>
+			</div>
+			<div class="btn-group">
+			<button type="button" class="btn btn-info" id="uppercase">數字+大小寫字母:(去除I,O,l,o)</button>
+			</div>
+		</div>
+		<div id="txt">
+		請輸入亂數表的編號：<input type="text" id="txtSeed" placeholder="ex：1234" />
+		&nbsp;<input type="button" id="btnGo" value="產生亂數表" class="btn btn-info"/>
+		<h6 style="color:red" id="smalltext"><small>請先點選要選取的亂數條件</small></h6>
+		</div>
+		<div id="randomTable" >
+		</div>
+		<div id="context">
+			好密碼的條件：愈長、愈亂、愈與個人資料無關。問題是，這樣子的密碼會不會就愈記不住？<br>
+
+			於是，某人就想啦－－既然記不住，不如就將密碼寫下來，例如，銀行密碼就寫在提款卡的背面，但是，最重要就是但是：不要直接寫。<br>
+
+			「不要直接寫」是怎麼回事－－<br>
+
+			他參考 http://ppt.cc/rELO 寫了一支亂數產生器，程式內容請參閱 index.html<br>
+
+			在瀏覽器試用 index.html 裏頭的程式，輸入1234 可產生亂數表。如下：<br>
+
+			<br>01: 3499305845
+			<br>02: 1769646932
+			<br>03: 3175789704
+			<br>04: 4592818053
+			<br>05: 1597861333
+			<br>06: 4414077977
+			<br>07: 2122376182
+			<br>08: 1169150223
+			<br>09: 6149827002
+			<br>10: 1990694015
+			
+		</div>
+
+		<script>
+		var sPool = null;
+		$("#number").click(function () { sPool = "0123456789";});
+		$("#lowcerase").click(function () { sPool = "abcdefghijkmnpqrstuvwxyz0123456789";});
+		$("#uppercase").click(function () { sPool = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz0123456789";});
+		
+		$("#btnGo").click(function () {
+		    var result = ""
+		    // var sPool = "0123456789";
+			// var sPool = "abcdefghijkmnpqrstuvwxyz0123456789";
+			// var sPool = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz0123456789";
+		
+		    Math.seedrandom($("#txtSeed").val()); // 設定亂數種子
+			var iRandom = 0; var ch = "?";
+			for (iRow = 1; iRow <= 10; iRow++) {
+				var sLine = (iRow + 100).toString().substr(1, 2) + ": ";
+				for (iCol = 1; iCol <= 10; iCol++) {
+					iRandom = Math.floor(Math.random() * sPool.length);
+					ch = sPool.substr(iRandom, 1);
+					sLine += ch;
+				}
+				result +=  sLine  + "<br>";
+			}
+			$("#randomTable").html(result);
+		});
+		
+		</script>
+	</body>
+</html>
